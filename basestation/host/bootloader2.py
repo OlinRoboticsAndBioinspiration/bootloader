@@ -9,8 +9,6 @@ Modifications on 2010-01-12 (Ver 1.01):
     Nowm this code can read two digit numbers from "COMXX" where 
     XX is the serial port for Windows
 """
-
-import wx, time, os, sys
 from serial import *
 from lib.scanf import sscanf
 from lib.payload import Payload
@@ -444,184 +442,6 @@ class Bootloader(object):
                 print "Unknown hex record type"
                 return
 
-
-class BootloaderGUI(wx.Frame):
-
-    ID_QUIT = 0
-    ID_STAT = 1
-    ID_TOOL = 2
-
-
-    def __init__(self, parent, id, title):
-        wx.Frame.__init__(self, parent, id, title, size = (480, 350))
-
-        self.InitLayout()
-        self.bootloader = Bootloader(self)
-        self.connected = False
-
-    def InitLayout(self):
-
-        ####################################
-        #   Main panel layout
-        ####################################
-        panel = wx.Panel(self, -1)
-        sizer = wx.GridBagSizer(0,0)
-
-        text1 = wx.StaticText(panel, -1, "Hex File")
-        sizer.Add(text1, (0, 0), (1,1), wx.LEFT|wx.TOP|wx.ALIGN_CENTER, 10)
-
-        self.fileTextCtrl = wx.TextCtrl(panel, -1)
-        sizer.Add(self.fileTextCtrl, (0, 1), (1, 3), wx.TOP|wx.LEFT|wx.EXPAND, 10)
-
-        btnBrowse = wx.Button(panel, -1, 'Browse')
-        self.Bind(wx.EVT_BUTTON, self.OnClickBrowse, btnBrowse)
-        sizer.Add(btnBrowse,(0, 4), (1,1), wx.TOP|wx.LEFT|wx.RIGHT, 10)
-
-        bsizer = wx.StaticBoxSizer(wx.StaticBox(panel, -1, 'Options'), wx.VERTICAL)
-        self.ICD2Chkbox = wx.CheckBox(panel, -1, 'ICD 2 triggered')
-        self.ICD2Chkbox.SetValue(False)
-        bsizer.Add(self.ICD2Chkbox, 0, wx.LEFT|wx.TOP, 5)
-
-        self.ConfigChkbox = wx.CheckBox(panel, -1, 'Write Configuration Memory (Not Implemented)')
-        self.ConfigChkbox.SetValue(False)
-        bsizer.Add(self.ConfigChkbox, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 5)
-
-
-        sizer.Add(bsizer, (1,0), (1,5), wx.EXPAND|wx.TOP|wx.LEFT|wx.RIGHT, 10)
-
-
-        btnConnect = wx.Button(panel, -1, 'Connect')
-        self.Bind(wx.EVT_BUTTON, self.OnClickConnect, btnConnect)
-        sizer.Add(btnConnect, (2,0), (1,1), wx.LEFT|wx.TOP, 10)
-
-        btnDisconnect = wx.Button(panel, -1, 'Disconnect')
-        self.Bind(wx.EVT_BUTTON, self.OnClickDisconnect, btnDisconnect)
-        sizer.Add(btnDisconnect, (2,1), (1,1), wx.LEFT|wx.TOP, 10)
-
-        self.serialName = wx.TextCtrl(panel, -1)
-        self.serialName.SetValue(DEFAULT_SERIAL_PORT)
-        sizer.Add(self.serialName, (2,2), (1,3), wx.EXPAND|wx.LEFT|wx.TOP|wx.RIGHT, 10)
-
-        self.PrintBox = wx.ListBox(panel, -1, size = (250, 100), style = wx.EXPAND)
-        sizer.Add(self.PrintBox, (3,0), (1, 5), wx.EXPAND|wx.LEFT|wx.TOP|wx.RIGHT, 10)
-
-
-        btnDownload = wx.Button(panel, -1, 'Download')
-        self.Bind(wx.EVT_BUTTON, self.OnClickDownload, btnDownload)
-        sizer.Add(btnDownload, (4,3), (1,1), wx.LEFT|wx.TOP|wx.BOTTOM, 10)
-
-        btnAbort = wx.Button(panel, -1, 'Abort')
-        self.Bind(wx.EVT_BUTTON, self.OnClickAbort, btnAbort)
-        sizer.Add(btnAbort, (4,4), (1,1), wx.LEFT|wx.TOP|wx.BOTTOM, 10)
-
-        sizer.AddGrowableCol(2)
-        sizer.AddGrowableRow(3)
-        panel.SetSizer(sizer)
-
-
-        ####################################
-        #   Statusbar
-        ####################################
-        self.statusbar = self.CreateStatusBar()
-        self.statusFields = ['Disconnected','No device','']
-        self.statusbar.SetFields(self.statusFields)
-       
-
-        ####################################
-        # Events
-        ####################################
-        self.Bind(wx.EVT_CLOSE, self.OnClose)
-
-
-        self.Center()
-        self.Show(True)
-        #self.SetFocus()
-
-
-    def OnClickAbort(self, evt):
-        "not implemented"
-
-    def OnClickDownload(self, evt):
-        try:   
-            filename = os.path.join(self.dirname, self.filename)
-        except:
-            dlg = wx.MessageDialog(self, 
-                    'Invalid file name or path.', 
-                    'Error',
-                    wx.OK | wx.ICON_INFORMATION)
-            dlg.ShowModal()
-            dlg.Destroy()
-        else:
-            self.bootloader.OpenFile(filename)
-            self.bootloader.ReadHexFile()
-            self.bootloader.ReplaceReset()
-            self.bootloader.CloseFile()
-            self.bootloader.PrintData()
-            self.bootloader.Download()
-
-        self.SetFocus()           
-
-
-
-    def OnClickBrowse(self, evt):
-        self.dirname = DEFAULT_HEX_DIR
-        dlg = wx.FileDialog(self, "Choose a file", self.dirname, "", "*.hex", wx.OPEN)
-        if dlg.ShowModal() == wx.ID_OK:
-            self.filename=dlg.GetFilename()
-            self.dirname=dlg.GetDirectory()
-            self.fileTextCtrl.SetValue(self.dirname + self.filename)
-        dlg.Destroy()
-
-    def OnClickDisconnect(self, evt):
-        if self.bootloader.Disconnect():
-            self.statusFields[0] = 'Disconnected'  
-            self.statusbar.SetFields(self.statusFields)
-            self.println("Bluetooth connection lost.")
-        else:
-            self.println("Bluetooth disconnection error.")
-
-    def OnClickConnect(self, evt):
-        self.portName = self.serialName.GetValue()
-
-        if sys.platform == 'win32':
-            port = int(self.portName[3:]) - 1     # e.g., port = 5 for COM6
-        else:
-            port = self.portName
-
-        if self.bootloader.Connect(port, DEFAULT_BAUD_RATE):
-            self.statusFields[0] = 'Connected'  
-            device = self.bootloader.ReadID()
-            self.statusFields[1] = device
-            self.statusbar.SetFields(self.statusFields)
-        else:
-            dlg = wx.MessageDialog(self, 
-                'Could not establish a connection to the Bluetooth device.', 
-                'Error', wx.OK | wx.ICON_INFORMATION)
-            dlg.ShowModal()
-            dlg.Destroy()
-
-    def println(self, line):
-        self.PrintBox.Append(line)
-        self.PrintBox.ScrollLines(1)
-
-    def OnClose(self, event):
-        dial = wx.MessageDialog(None, 'Are you sure to quit?', 'Question', 
-                wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
-        ret = dial.ShowModal()
-        if ret == wx.ID_YES:
-            try:
-                self.bootloader.Close()
-            except:
-                pass
-            self.Destroy()
-        else:
-            event.Veto()
-
-    def OnExit(self, event):
-        self.OnClose()
-
-
-
 def run_basestation(argv):
     def run_bootloader(port = DEFAULT_SERIAL_PORT, baud = DEFAULT_BAUD_RATE, fname = DEFAULT_BASE_HEX_FILE):
         bl = Bootloader(BASESTATION_MODE)
@@ -679,15 +499,8 @@ def run_imageproc2(argv):
 
 
 if __name__ == '__main__':
-
-    if len(sys.argv) == 1:
-        app = wx.App()
-        BootloaderGUI(None, -1, 'Bootloader for ImageProc2')
-        app.MainLoop()
-
-    elif sys.argv[1] == 'base':
+    if sys.argv[1] == 'base':
         run_basestation(sys.argv)
-
 
     else:
         run_imageproc2(sys.argv)

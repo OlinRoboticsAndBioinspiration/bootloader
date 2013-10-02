@@ -28,7 +28,7 @@ env.Append(BUILDERS = {'List' : list})
 
 staticLibs = [xcCompiler + "/lib/dsPIC33F/libp33FJ128MC706-elf.a", xcCompiler + "/lib/libq-elf.a"]
 
-env.Program('BLT', ['main.c', imageProc + '/init_default.c'])
+env.Program('BLT', ['main.c', imageProc + '/init_default.c', imageProc + '/delay.s'])
 
 env.Hex('BLT')
 env.List('BLT') #Current throws a bunch of errors

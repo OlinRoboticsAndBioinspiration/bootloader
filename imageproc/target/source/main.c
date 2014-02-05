@@ -12,11 +12,21 @@
 #include "utils.h"
 
 int main(void) {
-
     SetupClock();
     SwitchClocks();
     SetupPorts();
-    //lcdSetup(4,20); // 4 rows & 20 cols
+
+    int i = 0;
+    for (i=0; i < 3; i++)
+    {
+        LED_1 = 1; LED_2 = 1; LED_3 = 1;
+        delay_ms(200);
+        LED_1 = 0; LED_2 = 0; LED_3 = 0;
+        delay_ms(200);
+        LED_1 = 1; LED_2 = 1; LED_3 = 1;
+        delay_ms(200);
+    }
+
     radioSetup();   // polling mode
     bootSetup();
 
@@ -26,21 +36,19 @@ int main(void) {
     delay_ms(200);
     LED_1 = 1; LED_2 = 1; LED_3 = 1;
     delay_ms(500);
-
-    // check if radio is working and at the right state.
+//
+//    // check if radio is working and at the right state.
     while (radioGetTrxState() != 0x16);
-        
+//
     LED_1 = 0;
     LED_2 = 0;
     LED_3 = 0;
     
-    //print("Ready");
-    //bootTestRadio();
+    bootTestRadio();
     bootRun();
     bootReset();
 
     while(1);
     return 1;
-
 }
 

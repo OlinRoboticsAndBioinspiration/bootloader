@@ -66,6 +66,13 @@
     #define SPI_STATbits    SPI2STATbits
     #define SPI_CS          _LATG9
     #define SLPTR           _LATF0      //_LATB15
+//#if defined(__MIKRO)
+//    #define SPI_BUF         SPI1BUF
+//    #define SPI_CON1bits    SPI1CON1bits
+//    #define SPI_CON2        SPI1CON2
+//    #define SPI_STATbits    SPI1STATbits
+//    #define SPI_CS          _LATB2
+//    #define SLPTR           _LATB15      //_LATB15
 #elif defined(__EXP16DEV)
     #define SPI_BUF         SPI2BUF
     #define SPI_CON1bits    SPI2CON1bits
@@ -180,11 +187,12 @@ typedef MacPacketStruct* MacPacket;
 
 
 // default value for MAC HEADER
-#define DEFAULT_CHANNEL         0x15
-#define DEFAULT_DEST_PAN_ID     0x1000
-#define DEFAULT_SRC_PAN_ID      0x1000
-#define DEFAULT_DEST_ADDR       0x1020   
-#define DEFAULT_SRC_ADDR        0x1101
+#define DEFAULT_CHANNEL         0x14
+#define DEFAULT_DEST_PAN_ID     0x0000
+#define DEFAULT_SRC_PAN_ID      0x0000
+//#define DEFAULT_DEST_ADDR       0x0100 Magnet wire antenna
+#define DEFAULT_DEST_ADDR       0x0101 //White antenna radio
+#define DEFAULT_SRC_ADDR        0x0110
 
 // packet types
 #define PACKET_TYPE_BEACON      0x00

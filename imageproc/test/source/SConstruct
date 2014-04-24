@@ -1,0 +1,34 @@
+import os
+
+xcCompiler = "/Applications/microchip/xc16/v1.11/"
+imageProc = "../../../../imageproc-lib"
+
+assemblerFlags = "-Wa,-g" #pulled from makefile
+env = Environment(PIC = '33Fj128MC706A',
+                  CC = 'xc16-gcc', 
+                  AS = 'xc16-as',
+                  ASFLAGS = '-g',
+                  PROGSUFFIX = '.elf', 
+                  CFLAGS = '-g -omf=elf -mcpu=$PIC -D__IMAGEPROC2 -D__BOOTLOAD ',
+                  LINKFLAGS = "-omf=elf -mcpu=$PIC -Wl,--script=\"../p33FJ128MC706A_Bootload.gld\",--heap=8192,--stack=16",
+                  CPPPATH=[xcCompiler+"/support/dsPIC33F/h/",
+                    imageProc,
+                    "src"]);
+
+env.PrependENVPath('PATH',  xcCompiler + '/bin/')
+
+bin2hex = Builder(action = 'xc16-bin2hex $SOURCE -omf=elf',
+                  suffix = 'hex', 
+                  src_suffix = 'elf')
+env.Append(BUILDERS = {'Hex' : bin2hex})
+list = Builder(action = 'xc16-objdump -S -D $SOURCE > $TARGET', 
+               suffix = 'lst', 
+               src_suffix = 'elf')
+env.Append(BUILDERS = {'List' : list})
+
+staticLibs = [xcCompiler + "/lib/dsPIC33F/libp33FJ128MC706-elf.a", xcCompiler + "/lib/libq-elf.a"]
+
+env.Program('BLT', ['main.c', imageProc + '/init_default.c', imageProc + '/delay.s'])
+
+env.Hex('BLT')
+env.List('BLT') #Current throws a bunch of errors

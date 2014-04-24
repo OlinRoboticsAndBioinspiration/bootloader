@@ -138,38 +138,39 @@ void bootSetup(void) {
 
 
 void bootTestRadio(void) {
-    /*
-    char buffer[128];
-    unsigned int data_length;
-
-    while(!radioIsRxDataReady());
-    data_length = radioRxData(buffer);
-    print(buffer);
-    while(!radioIsRxDataReady());
-    data_length = radioRxData(buffer);
-    print(buffer);
-    while(1) {
-        while(!radioGetChar(&(buffer[0])));
-        print(buffer);
-        delay_ms(500);
-    }
 
     radioTxData(11, "Hello world", 0, 1);
-    radioTxData(13, "What the hell", 0, 1);
-    radioTxData(12, "Who are you?", 0, 1);
-    radioTxData(11, "Hello world", 0, 1);
-    radioTxData(13, "What the hell", 0, 1);
-    radioTxData(12, "Who are you?", 0, 1);
-    radioTxData(11, "Hello world", 0, 1);
-    radioTxData(13, "What the hell", 0, 1);
-    radioTxData(12, "Who are you?", 0, 1);
-    radioTxData(11, "Hello world", 0, 1);
-    radioTxData(13, "What the hell", 0, 1);
-    radioTxData(12, "Who are you?", 0, 1);
-    radioTxData(11, "Hello world", 0, 1);
-    radioTxData(13, "What the hell", 0, 1);
-    radioTxData(12, "Who are you?", 0, 1);
-    */
+
+//    char buffer[128];
+//    unsigned int data_length;
+//
+//    while(!radioIsRxDataReady());
+//    data_length = radioRxData(buffer);
+//    print(buffer);
+//    while(!radioIsRxDataReady());
+//    data_length = radioRxData(buffer);
+//    print(buffer);
+//    while(1) {
+//        while(!radioGetChar(&(buffer[0])));
+//        print(buffer);
+//        delay_ms(500);
+//    }
+
+//    radioTxData(11, "Hello world", 0, 1);
+//    radioTxData(13, "What the hell", 0, 1);
+//    radioTxData(12, "Who are you?", 0, 1);
+//    radioTxData(11, "Hello world", 0, 1);
+//    radioTxData(13, "What the hell", 0, 1);
+//    radioTxData(12, "Who are you?", 0, 1);
+//    radioTxData(11, "Hello world", 0, 1);
+//    radioTxData(13, "What the hell", 0, 1);
+//    radioTxData(12, "Who are you?", 0, 1);
+//    radioTxData(11, "Hello world", 0, 1);
+//    radioTxData(13, "What the hell", 0, 1);
+//    radioTxData(12, "Who are you?", 0, 1);
+//    radioTxData(11, "Hello world", 0, 1);
+//    radioTxData(13, "What the hell", 0, 1);
+//    radioTxData(12, "Who are you?", 0, 1);
 }
 
 

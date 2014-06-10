@@ -1,20 +1,22 @@
 import os
 
 xcCompiler = "/opt/microchip/xc16/v1.11"
+#xcCompiler = "/Applications/microchip/xc16/v1.20/" #Aaron's path
 imageProc = "../../../imageproc-lib"
 
 assemblerFlags = "-Wa,-g" #pulled from makefile
-env = Environment(PIC = '33Fj128MC706A',
+env = Environment(PIC = '33FJ128MC706A',
                   CC = 'xc16-gcc', 
                   AS = 'xc16-as',
                   PROGSUFFIX = '.elf', 
                   CFLAGS = '-g -omf=elf -mcpu=$PIC -D__IMAGEPROC2  '+assemblerFlags,
                   LINKFLAGS = "-omf=elf -mcpu=$PIC -Wl,--script=\"p33FJ128MC706A_Bootloader.gld\",--heap=8192,--stack=16",
                   #include paths
-                  CPPPATH=[xcCompiler + "/support/dsPIC33F/h/",xcCompiler + "/support/dsPIC33F/inc/",xcCompiler + "/support/dsPIC33F/gld/",
+                  CPPPATH=[xcCompiler + "/support/dsPIC33F/h/",xcCompiler + "/support/dsPIC33F/inc/",
                     imageProc,"source"]);
 print([xcCompiler+"/support/dsPIC33F/h/",xcCompiler+"/support/dsPIC33F/inc/",
                     imageProc,"source"])
+
 #Path to look for xc16 binaries. Can just use system path.
 env.PrependENVPath('PATH',  os.environ['PATH'])
 
@@ -28,10 +30,27 @@ list = Builder(action = 'xc16-objdump -S -D $SOURCE > $TARGET',
 env.Append(BUILDERS = {'List' : list})
 
 imageProcLibFiles = [imageProc + "/" + n for n in [ 
-    "utils.h", "delay.s","init_default.c","init_default.h","at86rf231.h"]]
-bootloaderFiles =["source/" + n for n in ["bootloader.c","bootloader.h","progmem.c","progmem.h","radio_polling.c","radio_polling.h","main.c","payload.h","payload.c","memory.s"]]
-print(bootloaderFiles)
-staticLibs = [xcCompiler + "/lib/dsPIC33F/libp33FJ128MC706-elf.a", xcCompiler + "/lib/libq-elf.a"]
+    "utils.h", 
+    "delay.s",
+    "init_default.c",
+    "payload.h",
+    "payload.c",
+    "init_default.h",
+    "at86rf231.h"]]
+
+bootloaderFiles = ["source/" + n for n in [
+    "bootloader.c",
+    "bootloader.h",
+    "progmem.c",
+    "progmem.h",
+    "radio_polling.c",
+    "radio_polling.h",
+    "main.c",
+    "memory.s"]]
+
+staticLibs = [
+    xcCompiler + "/lib/dsPIC33F/libp33FJ128MC706-elf.a", 
+    xcCompiler + "/lib/libq-elf.a"]
 
 env.Program('bootloader', imageProcLibFiles + bootloaderFiles + staticLibs)
 

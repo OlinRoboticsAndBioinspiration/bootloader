@@ -51,6 +51,7 @@
 //#include "ports.h"      // for external interrupt
 #include "utils.h"
 #include "spi.h"
+#include "payload.h"
 #include "radio_polling.h"
 #include "at86rf231.h"
 #include "generic_typedefs.h"
@@ -190,9 +191,10 @@ typedef MacPacketStruct* MacPacket;
 #define DEFAULT_CHANNEL         0x14
 #define DEFAULT_DEST_PAN_ID     0x0000
 #define DEFAULT_SRC_PAN_ID      0x0000
-//#define DEFAULT_DEST_ADDR       0x0100 Magnet wire antenna
-#define DEFAULT_DEST_ADDR       0x0101 //White antenna radio
-#define DEFAULT_SRC_ADDR        0x0110
+#define DEFAULT_DEST_ADDR       0x0100   //Magnet wire antenna
+//#define DEFAULT_DEST_ADDR       0x0101 //White antenna radio
+//#define DEFAULT_SRC_ADDR        0x2002
+#define DEFAULT_SRC_ADDR        0x0015
 
 // packet types
 #define PACKET_TYPE_BEACON      0x00

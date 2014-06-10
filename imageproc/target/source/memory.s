@@ -28,7 +28,8 @@
 ;
 ;********************************************************************/
 
-.include "p33fxxxx.inc"
+.equ __33FJ128MC706A, 1
+.include "p33FJ128MC706A.inc"
 
 .global _LoadAddr,_WriteMem,_WriteLatch,_ReadLatch,_ResetDevice,_Erase ;C called
 

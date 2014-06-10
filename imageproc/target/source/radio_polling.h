@@ -7,7 +7,6 @@
 #ifndef __RADIO_H
 #define __RADIO_H
 
-#include "payload.h"
 
 void radioSetup(void);
 

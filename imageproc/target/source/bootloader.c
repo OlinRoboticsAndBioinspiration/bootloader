@@ -79,7 +79,6 @@
 #include "utils.h"
 #include "radio_polling.h"
 
-
 #define CMD_BOOTLOADER          0xFE
 
 #define COMMAND_NACK            0x00
@@ -356,6 +355,15 @@ static void bootWriteBuffer(char *data, int size) {
         }
     }
 
+}
+
+/*************************************************************************/
+static void Set_board_addr(int addr){
+    addr = DEFAULT_SRC_ADDR;
+}
+
+static void Set_dongle_addr(int addr){
+    addr = DEFAULT_DEST_ADDR;
 }
 
 

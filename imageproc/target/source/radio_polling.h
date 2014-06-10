@@ -7,6 +7,8 @@
 #ifndef __RADIO_H
 #define __RADIO_H
 
+#define DEFAULT_SRC_ADDR        0x0017
+#define DEFAULT_DEST_ADDR       0x0100 
 
 void radioSetup(void);
 

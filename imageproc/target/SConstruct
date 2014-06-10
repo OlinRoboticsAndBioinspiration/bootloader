@@ -8,14 +8,13 @@ assemblerFlags = "-Wa,-g" #pulled from makefile
 env = Environment(PIC = '33FJ128MC706A',
                   CC = 'xc16-gcc', 
                   AS = 'xc16-as',
+                  ASFLAGS = '-p33FJ128MC706A',
                   PROGSUFFIX = '.elf', 
                   CFLAGS = '-g -omf=elf -mcpu=$PIC -D__IMAGEPROC2  '+assemblerFlags,
                   LINKFLAGS = "-omf=elf -mcpu=$PIC -Wl,--script=\"p33FJ128MC706A_Bootloader.gld\",--heap=8192,--stack=16",
                   #include paths
                   CPPPATH=[xcCompiler + "/support/dsPIC33F/h/",xcCompiler + "/support/dsPIC33F/inc/",
                     imageProc,"source"]);
-print([xcCompiler+"/support/dsPIC33F/h/",xcCompiler+"/support/dsPIC33F/inc/",
-                    imageProc,"source"])
 
 #Path to look for xc16 binaries. Can just use system path.
 env.PrependENVPath('PATH',  os.environ['PATH'])

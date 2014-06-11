@@ -78,6 +78,7 @@
 #include "ports.h"
 #include "utils.h"
 #include "radio_polling.h"
+#include "setadd.h"
 
 #define CMD_BOOTLOADER          0xFE
 
@@ -98,8 +99,8 @@
 #define VERSION                 "2.1.0"
 #define VERSION_LENGTH          5
 
-#define DEFAULT_SRC_ADDR        0x0017
-#define DEFAULT_DEST_ADDR       0x0100 
+//#define DEFAULT_SRC_ADDR        0x0017
+//#define DEFAULT_DEST_ADDR       0x0100 
 
 /*-----------------------------------------------------------------------------
  *          Type Defines
@@ -359,15 +360,6 @@ static void bootWriteBuffer(char *data, int size) {
     }
 }
 
-/*************************************************************************/
-static void Set_board_addr(int addr){
-    addr = DEFAULT_SRC_ADDR;
-}
-
-static void Set_dongle_addr(int addr){
-    addr = DEFAULT_DEST_ADDR;
-}
-
-
+/****************************************************************************/
 
 

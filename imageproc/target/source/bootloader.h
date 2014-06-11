@@ -83,6 +83,7 @@ void bootSetup(void);
 void bootRun(void);
 void bootReset(void);
 void bootTestRadio(void);
+unsigned int GetBlRev(void);
 
 #endif // __BOOTLOADER_H
 

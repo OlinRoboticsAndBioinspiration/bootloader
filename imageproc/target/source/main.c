@@ -12,6 +12,7 @@
 #include "utils.h"
 
 int main(void) {
+	
     SetupClock();
     SwitchClocks();
     SetupPorts();

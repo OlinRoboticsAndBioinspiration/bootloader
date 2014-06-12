@@ -31,10 +31,10 @@ int main(void) {
         delay_ms(200);
     }
     //Write Data to EEDATA space
-    //TBLPAG = 0x7F;
-    __builtin_tblwth(0, DEFAULT_SRC_ADDR);
-    __builtin_tblwth(2, DEFAULT_DEST_ADDR);
-    __builtin_tblwth(4, DEFAULT_CHANNEL);
+    TBLPAG = 0x7F;
+    __builtin_tblwth(0x00, DEFAULT_SRC_ADDR);
+    __builtin_tblwth(0x02, DEFAULT_DEST_ADDR);
+    __builtin_tblwth(0x04, DEFAULT_CHANNEL);
     
     radioSetup();   // polling mode
     bootSetup();

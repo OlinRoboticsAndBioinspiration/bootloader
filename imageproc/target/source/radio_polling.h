@@ -7,6 +7,10 @@
 #ifndef __RADIO_H
 #define __RADIO_H
 
+#define DEFAULT_CHANNEL         0x14
+#define DEFAULT_DEST_PAN_ID     0x0000
+#define DEFAULT_SRC_PAN_ID      0x0000
+
 #if defined(__S1)
 	#define DEFAULT_SRC_ADDR                0x0011
 

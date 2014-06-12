@@ -31,7 +31,7 @@ int main(void) {
         delay_ms(200);
     }
     //Write Data to EEDATA space
-    TBLPAG = 0x7F;
+    //TBLPAG = 0x7F;
     __builtin_tblwth(0, DEFAULT_SRC_ADDR);
     __builtin_tblwth(2, DEFAULT_DEST_ADDR);
     __builtin_tblwth(4, DEFAULT_CHANNEL);

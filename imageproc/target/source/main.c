@@ -10,6 +10,7 @@
 #include "radio_polling.h"
 #include "bootloader.h"
 #include "utils.h"
+#include <xc.h>
 
 int main(void) {
 	
@@ -27,7 +28,11 @@ int main(void) {
         LED_1 = 1; LED_2 = 1; LED_3 = 1;
         delay_ms(200);
     }
-
+    //Write Data to EEDATA space
+    __builtin_tblwth(0x0010, DEFAULT_SRC_ADDR);
+    __builtin_tblwth(0x0011, DEFAULT_DEST_ADDR);
+    __builtin_tblwth(0x0012, DEFAULT_CHANNEL);
+    
     radioSetup();   // polling mode
     bootSetup();
 

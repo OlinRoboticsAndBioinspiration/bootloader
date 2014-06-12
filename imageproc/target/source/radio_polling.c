@@ -191,7 +191,7 @@ typedef MacPacketStruct* MacPacket;
 #define DEFAULT_CHANNEL         0x14
 #define DEFAULT_DEST_PAN_ID     0x0000
 #define DEFAULT_SRC_PAN_ID      0x0000
-#define DEFAULT_DEST_ADDR       0x0100  //Magnet wire antenna
+//#define DEFAULT_DEST_ADDR       0x0100  //Magnet wire antenna
 //#define DEFAULT_DEST_ADDR       0x0101 //White antenna radio
 //#define DEFAULT_SRC_ADDR        0x2002
 //#define DEFAULT_SRC_ADDR        0x0017 Source Address set in header file

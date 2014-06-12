@@ -12,6 +12,8 @@
 #include "utils.h"
 #include <xc.h>
 
+//unsigned int Ntwaddr = {DEFAULT_SRC_ADDR, DEFAULT_DEST_ADDR, DEFAULT_CHANNEL};
+//#define _EEDATA(N) __attribute__((space(eedata), aligned(4)), 
 int main(void) {
 	
     SetupClock();
@@ -29,9 +31,10 @@ int main(void) {
         delay_ms(200);
     }
     //Write Data to EEDATA space
-    __builtin_tblwth(0x0010, DEFAULT_SRC_ADDR);
-    __builtin_tblwth(0x0011, DEFAULT_DEST_ADDR);
-    __builtin_tblwth(0x0012, DEFAULT_CHANNEL);
+    TBLPAG = 0x7F;
+    __builtin_tblwth(0, DEFAULT_SRC_ADDR);
+    __builtin_tblwth(2, DEFAULT_DEST_ADDR);
+    __builtin_tblwth(4, DEFAULT_CHANNEL);
     
     radioSetup();   // polling mode
     bootSetup();

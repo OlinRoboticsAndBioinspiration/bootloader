@@ -5,20 +5,29 @@ xcCompiler = "/opt/microchip/xc16/v1.11"
 imageProc = "../../../imageproc-lib"
 
 assemblerFlags = "-Wa,-g" #pulled from makefile
+
 AddOption('--srcaddr',
           dest = "srcaddr",
           type = "string",
-          nargs =1,
+          nargs = 1,
           action = "store",
-          metavar="BOARD_ADDRESS",
-          default = "1")
+          metavar = "BOARD_ADDRESS",
+          default = "99")#board will have address x0110
+
+AddOption('--destaddr',
+          dest = "destaddr",
+          type = "string",
+          nargs = 1,
+          action = "store",
+          metavar = "RADIO_ADDRESS",
+          default = "0")#if not specified, board will talk to white radio
 
 env = Environment(PIC = '33FJ128MC706A',
                   CC = 'xc16-gcc', 
                   AS = 'xc16-as',
                   ASFLAGS = '-p33FJ128MC706A',
                   PROGSUFFIX = '.elf', 
-                  CFLAGS = '-g -omf=elf -mcpu=$PIC -D__IMAGEPROC2  '+assemblerFlags+' -D__C'+GetOption('srcaddr'),
+                  CFLAGS = '-g -omf=elf -mcpu=$PIC -D__IMAGEPROC2  '+assemblerFlags+' -D__S'+GetOption('srcaddr')+' -D__D'+GetOption('destaddr'),
                   LINKFLAGS = "-omf=elf -mcpu=$PIC -Wl,--script=\"p33FJ128MC706A_Bootloader.gld\",--heap=8192,--stack=16",
                   #include paths
                   CPPPATH=[xcCompiler + "/support/dsPIC33F/h/",xcCompiler + "/support/dsPIC33F/inc/",

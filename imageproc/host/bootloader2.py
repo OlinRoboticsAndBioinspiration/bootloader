@@ -9,7 +9,7 @@ Modifications on 2010-01-12 (Ver 1.01):
     Nowm this code can read two digit numbers from "COMXX" where 
     XX is the serial port for Windows
 """
-
+#import sys, traceback
 from serial import *
 from lib.scanf import sscanf
 from lib.payload import Payload
@@ -25,7 +25,7 @@ DEFAULT_SERIAL_PORT = '/dev/ttyUSB0'
 #DEFAULT_SERIAL_PORT = 'COM5'
 #DEFAULT_BAUD_RATE = 57600
 DEFAULT_BAUD_RATE = 230400
-DEFAULT_DEST_ADDR = '\x01\x10'  #0x0110 for Aaron's dynaRoACH
+DEFAULT_DEST_ADDR = '\x00\x16'  #0x0110 for Aaron's dynaRoACH
 #DEFAULT_BAUD_RATE = 909091
 #DEFAULT_BAUD_RATE = 921600
 DEFAULT_HEX_FILE = 'ImageProc2Bootload.hex'
@@ -363,6 +363,7 @@ class Bootloader(object):
             time.sleep(.01)
         
         print "Programming is successfully done."
+        sys.exit(0)
         return True
             
 

@@ -29,30 +29,33 @@ int main(void) {
     SwitchClocks();
     SetupPorts();
 
-    // int i = 0;
-    // for (i=0; i < 3; i++)
-    // {
-    //     LED_1 = 1; LED_2 = 1; LED_3 = 1;
-    //     delay_ms(200);
-    //     LED_1 = 0; LED_2 = 0; LED_3 = 0;
-    //     delay_ms(200);
-    //     LED_1 = 1; LED_2 = 1; LED_3 = 1;
-    //     delay_ms(200);
-    // }
+    int i = 0;
+    for (i=0; i < 3; i++)
+    {
+        LED_1 = 1; LED_2 = 1; LED_3 = 1;
+        delay_ms(200);
+        LED_1 = 0; LED_2 = 0; LED_3 = 0;
+        delay_ms(200);
+        LED_1 = 1; LED_2 = 1; LED_3 = 1;
+        delay_ms(200);
+    }
 
     uReg32 addr;
     addr.Val32 = 0x400;
 
     char src_str[2];
-    src_str[1] = 0x00;
-    src_str[0] = 0x12;
+    src_str[0] = DEFAULT_SRC_ADDR;
+    src_str[1] = DEFAULT_SRC_ADDR >> 8;
+
+    // src_str[0] = 0x00;
+    // src_str[1] = 0x12;
 
     pmWritePage(src_str,addr.Val32);
 
-    LED_1 = 1;
+    LED_1 = 0;
     delay_ms(2000);
 
-    unsigned int res;
+    //unsigned int res;
 
     // unsigned long res = pmReadMem(addr.Val32);
     // if (res == 0x0012){
@@ -61,17 +64,13 @@ int main(void) {
     // }
 
     TBLPAG = 0x0;
-    res = __builtin_tblrdl(0x400);
-    if (res == 0x12){
-        LED_1 = ~LED_1;
-        delay_ms(1000);
-    }
-
+    unsigned int res = __builtin_tblrdl(0x400);
+    
     // res = ReadLatch(0x0000, 0x0400);
-    // if (res == 0x12){
-    //      LED_1 = ~LED_1;
-    //      delay_ms(1000);
-    //  }
+    if (res == 0x12){
+          LED_1 = ~LED_1;
+          delay_ms(1000);
+      }
 
     radioSetup();   // polling mode
     bootSetup();

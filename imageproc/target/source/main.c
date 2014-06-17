@@ -43,34 +43,17 @@ int main(void) {
     uReg32 addr;
     addr.Val32 = SRC_ADDR_LOC;
 
-    char src_str[2];
+    char src_str[11];
     src_str[0] = DEFAULT_SRC_ADDR;
     src_str[1] = DEFAULT_SRC_ADDR >> 8;
-
-    // src_str[0] = 0x00;
-    // src_str[1] = 0x12;
+    src_str[3] = DEFAULT_DEST_ADDR;
+    src_str[4] = DEFAULT_DEST_ADDR >> 8;
+    src_str[6] = DEFAULT_DEST_PAN_ID;
+    src_str[7] = DEFAULT_DEST_PAN_ID >> 8;
+    src_str[9] = DEFAULT_CHANNEL;
+    src_str[10] = DEFAULT_CHANNEL >>8;
 
     pmWritePage(src_str,addr.Val32);
-
-    //LED_1 = 0;
-    //delay_ms(2000);
-
-    //unsigned int res;
-
-    // unsigned long res = pmReadMem(addr.Val32);
-    // if (res == 0x0012){
-    //     LED_1=~LED_1;
-    //     delay_ms(2000);
-    // }
-
-    //TBLPAG = 0x0;
-    //unsigned int res = __builtin_tblrdl(0x400);
-    
-    // res = ReadLatch(0x0000, 0x0400);
-    // if (res == 0x12){
-    //       LED_1 = ~LED_1;
-    //       delay_ms(1000);
-    //   }
 
     radioSetup();   // polling mode
     bootSetup();

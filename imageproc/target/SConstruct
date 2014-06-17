@@ -1,5 +1,13 @@
 import os
 
+"""
+To specify the address of the board to be programmed,
+use the --srcaddr flag followed by the board number.
+This will persist across the bootloader and the 
+application. To specify the basestation to be used,
+use the --destaddr flag folloowed bythe radio number.
+"""
+
 xcCompiler = "/opt/microchip/xc16/v1.11"
 #xcCompiler = "/Applications/microchip/xc16/v1.20/" #Aaron's path
 imageProc = "../../../imageproc-lib"
